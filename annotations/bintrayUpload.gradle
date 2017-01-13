@@ -1,0 +1,84 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+// Bintray
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+group = rootProject.ext.watchdogGroup
+version = rootProject.ext.watchdogVersion
+
+task sourcesJar(type: Jar) {
+    sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+def siteUrl = properties.get('bintray.siteUrl')
+def gitUrl = properties.get('bintray.gitUrl')
+
+// Create the pom configuration:
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id properties.get('bintray.org')
+            name properties.get('bintray.username')
+            email properties.get('bintray.email')
+        }
+    }
+}
+// Create the publication with the pom configuration:
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId rootProject.ext.watchdogGroup
+            artifactId 'annotations'
+            version rootProject.ext.watchdogVersion
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', 'annotations')
+                root.appendNode('url', siteUrl)
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['MyPublication']
+
+    configurations = ['archives']
+    pkg {
+        repo = 'DataBinding-Watchdog'
+        name = 'annotations'
+        desc = 'annonation'
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            name = "${rootProject.ext.watchdogVersion}"
+            desc = "this is the ${rootProject.ext.watchdogVersion} version"
+            vcsTag = "android mvvm databinding"
+        }
+    }
+}

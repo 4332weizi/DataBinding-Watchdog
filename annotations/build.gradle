@@ -1,7 +1,9 @@
 apply plugin: 'java'
 
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+apply from: "bintrayUpload.gradle"
+
+sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
+targetCompatibility = rootProject.ext.targetCompatibilityVersion
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

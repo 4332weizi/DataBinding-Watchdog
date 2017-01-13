@@ -1,7 +1,6 @@
 package net.funol.databinding.watchdog;
 
 import android.databinding.Observable;
-import android.util.Log;
 
 import net.funol.databinding.watchdog.annotations.WatchThis;
 
@@ -99,7 +98,7 @@ public class Watchdog {
             try {
                 callback = Class.forName(callbackInterfacePackageName + "." + callbackInterfaceName);
                 if (!callback.isInstance(beNotified)) {
-                    Log.e("Watchdog", beNotified.getClass().getSimpleName() + " should implement " + callbackInterfaceName);
+                    System.out.println(beNotified.getClass().getSimpleName() + " was suggest to implement " + callbackInterfaceName);
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
