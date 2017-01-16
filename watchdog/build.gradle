@@ -1,0 +1,12 @@
+apply plugin: 'java'
+
+apply from: "bintrayUpload.gradle"
+
+sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
+targetCompatibility = rootProject.ext.targetCompatibilityVersion
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(path: ':annotations')
+    compile 'com.android.databinding:baseLibrary:2.2.3'
+}

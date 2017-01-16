@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    sourceCompatibilityVersion = JavaVersion.VERSION_1_7
+    targetCompatibilityVersion = JavaVersion.VERSION_1_7
+
+    watchdogVersion = '1.0.0'
+    watchdogGroup = 'net.funol.databinding.watchdog'
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
