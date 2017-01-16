@@ -62,7 +62,7 @@ public class Watchdog {
         return new Builder();
     }
 
-    protected static class Builder {
+    public static class Builder {
 
         private Object beWatched;
         private Object beNotified;
