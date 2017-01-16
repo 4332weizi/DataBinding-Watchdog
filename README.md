@@ -9,8 +9,7 @@ Interface generator for Observable Field in android DataBinding.
 
 when you write  
 ```java
-@WatchThis  
-public class MainViewModel {
+ public class MainViewModel {
     @WatchThis
     public final BaseObservable onLoginSuccess = new BaseObservable();
 }
