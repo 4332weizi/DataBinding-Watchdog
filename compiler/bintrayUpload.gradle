@@ -55,7 +55,7 @@ publishing {
             version rootProject.ext.watchdogVersion
             pom.withXml {
                 def root = asNode()
-                root.appendNode('name', 'compiler')
+                root.appendNode('method', 'compiler')
                 root.appendNode('url', siteUrl)
                 root.children().last() + pomConfig
             }

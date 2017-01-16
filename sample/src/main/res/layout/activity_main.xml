@@ -9,11 +9,25 @@
             type="net.funol.databinding.watchdog.sample.MainViewModel" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context="net.funol.autofire.sample.MainActivity">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="账户名"
+            android:text="@={watchdog.username}" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:text="@={watchdog.password}" />
 
         <Button
             android:layout_width="match_parent"
@@ -21,5 +35,5 @@
             android:onClick="@{watchdog.onLoginBtnClick}"
             android:text="登录" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

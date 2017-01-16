@@ -1,11 +1,17 @@
 package net.funol.databinding.watchdog.compiler;
 
+import android.databinding.Observable;
+
 import com.google.auto.service.AutoService;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
+import net.funol.databinding.watchdog.WatchdogInjector;
 import net.funol.databinding.watchdog.annotations.NotifyThis;
 import net.funol.databinding.watchdog.annotations.WatchThis;
 
@@ -75,11 +81,42 @@ public class WatchdogProcessor extends AbstractProcessor {
 
         for (String key : keys) {
             List<Element> elements = mTypeSpecBuilderMap.get(key);
+
+            String outputPackageName = getPackageName(elements.get(0)) + Util.WATCHDOG_PACKAGE_NAME_SUFFIX;
+
             TypeSpec.Builder iPropertyChangeCallbacksBuilder = generatePropertyChangeCallbacksInterface(elements.get(0));
+            TypeSpec.Builder injectorBuilder = generateInjectorClass(elements.get(0));
+            MethodSpec.Builder injectMethod = generateInjectMethod(TypeName.get(elements.get(0).getEnclosingElement().asType()),
+                    ClassName.get(outputPackageName, Util.getCallbackInterfaceName(elements.get(0).getEnclosingElement().getSimpleName().toString())));
             for (Element element : elements) {
+
+                String method = element.getAnnotation(WatchThis.class).method();
+                method = method.equals("") ? element.getSimpleName().toString() : method;
+
                 iPropertyChangeCallbacksBuilder.addMethod(generatePropertyChangeCallbacksMethod(element).build());
+
+                TypeSpec propertyChangeCallback = TypeSpec.anonymousClassBuilder("")
+                        .addSuperinterface(Observable.OnPropertyChangedCallback.class)
+                        .addMethod(MethodSpec.methodBuilder("onPropertyChanged")
+                                .addAnnotation(Override.class)
+                                .addModifiers(Modifier.PUBLIC)
+                                .returns(TypeName.VOID)
+                                .addParameter(ClassName.get(Observable.class), "observableField")
+                                .addParameter(TypeName.INT, "fieldId")
+                                .addCode(CodeBlock.builder()
+                                        .beginControlFlow("if(beNotified!=null)")
+                                        .addStatement("beNotified." + method + "((" + element.asType() + ")observableField,fieldId)")
+                                        .endControlFlow()
+                                        .build())
+                                .build())
+                        .build();
+
+                injectMethod.addStatement("beWatched." + element.getSimpleName() + ".addOnPropertyChangedCallback($L)", propertyChangeCallback);
+
             }
-            writeToFile(getPackageName(elements.get(0)) + Util.WATCHDOG_PACKAGE_NAME_SUFFIX, iPropertyChangeCallbacksBuilder.build());
+            injectorBuilder.addMethod(injectMethod.build());
+            writeToFile(outputPackageName, iPropertyChangeCallbacksBuilder.build());
+            writeToFile(outputPackageName, injectorBuilder.build());
         }
 
         return false;
@@ -87,17 +124,34 @@ public class WatchdogProcessor extends AbstractProcessor {
 
     public TypeSpec.Builder generatePropertyChangeCallbacksInterface(Element element) {
         return TypeSpec.interfaceBuilder(Util.getCallbackInterfaceName(element.getEnclosingElement().getSimpleName().toString()))
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+                .addModifiers(Modifier.PUBLIC);
     }
 
     public MethodSpec.Builder generatePropertyChangeCallbacksMethod(Element element) {
-        return MethodSpec.methodBuilder(element.getSimpleName().toString())
+        String method = element.getAnnotation(WatchThis.class).method();
+        method = method.equals("") ? element.getSimpleName().toString() : method;
+        return MethodSpec.methodBuilder(method)
                 .addModifiers(Modifier.PUBLIC)
                 .addModifiers(Modifier.ABSTRACT)
                 .returns(TypeName.VOID)
                 .addAnnotation(NotifyThis.class)
                 .addParameter(TypeName.get(element.asType()), "observableField")
                 .addParameter(TypeName.INT, "fieldId");
+    }
+
+    public TypeSpec.Builder generateInjectorClass(Element element) {
+        return TypeSpec.classBuilder(Util.getInjectorClassName(element.getEnclosingElement().getSimpleName().toString()))
+                .superclass(ClassName.get(WatchdogInjector.class))
+                .addModifiers(Modifier.PUBLIC);
+    }
+
+    public MethodSpec.Builder generateInjectMethod(TypeName beWatched, TypeName beNotified) {
+        return MethodSpec.methodBuilder("inject")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .returns(TypeName.VOID)
+                .addParameter(ParameterSpec.builder(beWatched, "beWatched").build())
+                .addParameter(ParameterSpec.builder(beNotified, "beNotified", Modifier.FINAL).build());
     }
 
     private void writeToFile(String packageName, TypeSpec typeSpec) {
@@ -125,6 +179,10 @@ public class WatchdogProcessor extends AbstractProcessor {
 
         public static String getCallbackInterfaceName(String className) {
             return "I" + className + "Callbacks";
+        }
+
+        public static String getInjectorClassName(String className) {
+            return className + "$$WatchdogInjector";
         }
     }
 

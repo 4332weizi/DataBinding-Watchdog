@@ -24,38 +24,18 @@ public class Watchdog {
     }
 
     protected void wakeup() {
-        Field[] fields = beWatched.getClass().getFields();
-        for (Field field : fields) {
-            WatchThis fieldAnnotation = field.getAnnotation(WatchThis.class);
-            if (fieldAnnotation == null) {
-                continue;
-            }
-            try {
-                if (!(field.get(beWatched) instanceof Observable)) {
-                    throw new RuntimeException("field " + field.getName() + " must be Observable(DataBinding) ");
-                }
-                addOnPropertyChangedCallback(field, beNotified.getClass().getMethod(field.getName(), field.get(beWatched).getClass(), int.class));
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException("method " + field.getName() + " must be declare in " + beNotified.getClass().getName());
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException("field " + field.getName() + " must be declare as public access");
-            }
+        String injectorName = Util.getInjectorClassName(beWatched.getClass().getSimpleName());
+        try {
+            Class clazz = Class.forName(injectorName);
+            WatchdogInjector injector = (WatchdogInjector) clazz.newInstance();
+            injector.inject(beWatched, beNotified);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
-    }
-
-    protected void addOnPropertyChangedCallback(final Field field, final Method method) throws IllegalAccessException {
-        ((Observable) field.get(beWatched)).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int fieldId) {
-                try {
-                    method.invoke(beNotified, observable, fieldId);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException("method " + method.getName() + " must be declare as public access");
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     public static Builder newBuilder() {
@@ -115,6 +95,10 @@ public class Watchdog {
 
         public static String getCallbackInterfaceName(String className) {
             return "I" + className + "Callbacks";
+        }
+
+        public static String getInjectorClassName(String className) {
+            return className + "$$WatchdogInjector";
         }
     }
 
