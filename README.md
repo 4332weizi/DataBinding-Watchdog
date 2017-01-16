@@ -22,7 +22,32 @@ public interface IMainViewModelCallbacks {
   void onLoginSuccess(BaseObservable observableField, int fieldId);
 }
 ```
-when `onLoginSuccess` changed, method `onLoginSuccess(observableField, fieldId)` will be called.
+implement `IMainViewModelCallbacks` and bind it to `onLoginSuccess` property change callback.
+```java
+public class MainActivity extends AppCompatActivity implements IMainViewModelCallbacks {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        MainViewModel viewModel = new MainViewModel();
+        binding.setWatchdog(viewModel);
+
+        // bind
+        Watchdog.newBuilder()
+                .watch(viewModel)
+                .notify(this)
+                .build();
+    }
+
+    @Override
+    public void onLoginSuccess(BaseObservable observableField, int fieldId) {
+        Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
+    }
+
+}
+```
+when `onLoginSuccess` property changed, method `onLoginSuccess(observableField, fieldId)` will be called.
 
 Download
 ===
