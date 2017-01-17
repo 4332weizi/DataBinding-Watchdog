@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Created by ZHAOWEIWEI on 2017/1/6.
  */
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.FIELD)
 public @interface WatchThis {
     String method() default "";

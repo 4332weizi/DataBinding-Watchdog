@@ -3,6 +3,7 @@ package net.funol.databinding.watchdog.compiler;
 import android.databinding.Observable;
 
 import com.google.auto.service.AutoService;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -114,7 +115,7 @@ public class WatchdogProcessor extends AbstractProcessor {
                 TypeName paramTypeName = TypeName.get(element.asType());
 
                 // add callback method
-                iPropertyChangeCallbacksBuilder.addMethod(generatePropertyChangeCallbacksMethod(methodName, paramTypeName).build());
+                iPropertyChangeCallbacksBuilder.addMethod(generatePropertyChangeCallbacksMethod(element, methodName, paramTypeName).build());
 
                 // generate anonymous callback
                 TypeSpec propertyChangeCallback = generatePropertyChangeCallback(methodName, paramTypeName).build();
@@ -131,7 +132,10 @@ public class WatchdogProcessor extends AbstractProcessor {
             writeToFile(outputPackageName, injectorBuilder.build());
         }
 
-        return false;
+        // clear classes for next process
+        mTypeSpecBuilderMap.clear();
+
+        return true;
     }
 
     public TypeSpec.Builder generatePropertyChangeCallbacksInterface(String className) {
@@ -139,18 +143,26 @@ public class WatchdogProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC);
     }
 
-    public MethodSpec.Builder generatePropertyChangeCallbacksMethod(String methodName, TypeName paramTypeName) {
+    public MethodSpec.Builder generatePropertyChangeCallbacksMethod(Element element, String methodName, TypeName paramTypeName) {
         return MethodSpec.methodBuilder(methodName)
                 .addModifiers(Modifier.PUBLIC)
                 .addModifiers(Modifier.ABSTRACT)
                 .returns(TypeName.VOID)
-                .addAnnotation(NotifyThis.class)
+                .addJavadoc("property change callback for {@link $T#$N}\n", element.getEnclosingElement().asType(), element.getSimpleName().toString())
+                .addAnnotation(AnnotationSpec.builder(NotifyThis.class)
+                        .addMember("field", CodeBlock.builder()
+                                .add("$S", element.getSimpleName())
+                                .build())
+                        .build())
                 .addParameter(paramTypeName, Util.OBSERVABLE_FIELD)
                 .addParameter(TypeName.INT, Util.FIELD_ID);
     }
 
     public TypeSpec.Builder generateInjectorClass(String className, TypeName beWatchedTypeName, TypeName beNotifiedTypeName) {
         return TypeSpec.classBuilder(className)
+                .addAnnotation(AnnotationSpec.builder(SuppressWarnings.class)
+                        .addMember("value", "$S", "unchecked")
+                        .build())
                 .addSuperinterface(ParameterizedTypeName.get(ClassName.get(WatchdogInjector.class), beWatchedTypeName, beNotifiedTypeName))
                 .addModifiers(Modifier.PUBLIC);
     }

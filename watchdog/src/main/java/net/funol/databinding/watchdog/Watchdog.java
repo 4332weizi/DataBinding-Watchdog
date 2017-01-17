@@ -3,7 +3,7 @@ package net.funol.databinding.watchdog;
 /**
  * Created by ZHAOWEIWEI on 2017/1/6.
  */
-
+@SuppressWarnings("unchecked")
 public class Watchdog {
 
     private Object beWatched;

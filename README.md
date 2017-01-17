@@ -10,18 +10,28 @@ Interface generator for Observable Field in android DataBinding.
 when you write  
 ```java
  public class MainViewModel {
+    @WatchThis(method = "onUserNameChanged")
+    public final ObservableField<String> username = new ObservableField<>();
+    @WatchThis(method = "onPasswordChanged")
+    public final ObservableField<String> password = new ObservableField<>();
     @WatchThis
     public final BaseObservable onLoginSuccess = new BaseObservable();
 }
 ```
-an interface will be generate for OnPropertyChangeCallback of Field `onLoginSuccess`.
+an OnPropertyChangeCallback interface will be generate for fields annotated with `WatchThis`.
 ```java
 public interface IMainViewModelCallbacks {
+  @NotifyThis
+  void onUserNameChanged(ObservableField<String> observableField, int fieldId);
+
+  @NotifyThis
+  void onPasswordChanged(ObservableField<String> observableField, int fieldId);
+
   @NotifyThis
   void onLoginSuccess(BaseObservable observableField, int fieldId);
 }
 ```
-implement `IMainViewModelCallbacks` and bind it to `onLoginSuccess` property change callback.
+implement `IMainViewModelCallbacks` and bind it to instance of `MainViewModel`.
 ```java
 public class MainActivity extends AppCompatActivity implements IMainViewModelCallbacks {
 
@@ -40,19 +50,35 @@ public class MainActivity extends AppCompatActivity implements IMainViewModelCal
     }
 
     @Override
+    public void onUserNameChanged(ObservableField<String> observableField, int fieldId) {
+        showToast("用户名：" + observableField.get());
+    }
+
+    @Override
+    public void onPasswordChanged(ObservableField<String> observableField, int fieldId) {
+        showToast("密码：" + observableField.get());
+    }
+
+    @Override
     public void onLoginSuccess(BaseObservable observableField, int fieldId) {
-        Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
+        showToast("登录成功");
+    }
+
+    public void showToast(String content) {
+        Toast toast = Toast.makeText(this, content, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
 }
 ```
-when `onLoginSuccess` property changed, method `onLoginSuccess(observableField, fieldId)` will be called.
+when being watched fields property changed, callback method will be called.
 
 Download
 ===
 ```
 dependencies {
-    compile 'net.funol.databinding.watchdog:watchdog:1.0.0'
-    annotationProcessor 'net.funol.databinding.watchdog:compiler:1.0.0'
+    compile 'net.funol.databinding.watchdog:watchdog:1.1.0'
+    annotationProcessor 'net.funol.databinding.watchdog:compiler:1.1.0'
 }
 ```

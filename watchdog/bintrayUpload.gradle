@@ -55,7 +55,7 @@ publishing {
             version rootProject.ext.watchdogVersion
             pom.withXml {
                 def root = asNode()
-                root.appendNode('method', 'watchdog')
+                root.appendNode('name', 'watchdog')
                 root.appendNode('url', siteUrl)
                 root.children().last() + pomConfig
             }
