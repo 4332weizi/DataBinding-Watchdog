@@ -1,13 +1,5 @@
 package net.funol.databinding.watchdog;
 
-import android.databinding.Observable;
-
-import net.funol.databinding.watchdog.annotations.WatchThis;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 /**
  * Created by ZHAOWEIWEI on 2017/1/6.
  */
@@ -24,17 +16,15 @@ public class Watchdog {
     }
 
     protected void wakeup() {
-        String injectorName = Util.getInjectorClassName(beWatched.getClass().getSimpleName());
+        String injectorName = beWatched.getClass().getPackage().getName()
+                + Util.WATCHDOG_PACKAGE_NAME_SUFFIX
+                + "." + Util.getInjectorClassName(beWatched.getClass().getSimpleName());
         try {
             Class clazz = Class.forName(injectorName);
             WatchdogInjector injector = (WatchdogInjector) clazz.newInstance();
             injector.inject(beWatched, beNotified);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -63,22 +53,20 @@ public class Watchdog {
 
         public Watchdog build() {
             if (beWatched == null) {
-                throw new IllegalArgumentException("beWatched required.");
+                throw new IllegalArgumentException("beWatched can not be null.");
             }
             if (beNotified == null) {
-                throw new IllegalArgumentException("beNotified required.");
+                throw new IllegalArgumentException("beNotified can not be null.");
             }
 
-            String beWatchedPackageName = beWatched.getClass().getName().replace("." + beWatched.getClass().getSimpleName(), "");
-            String callbackInterfaceName = Util.getCallbackInterfaceName(beWatched.getClass().getSimpleName());
-            String callbackInterfacePackageName = beWatchedPackageName + Util.WATCHDOG_PACKAGE_NAME_SUFFIX;
-
-            Class callback;
+            String callbackInterfaceName = beWatched.getClass().getPackage().getName()
+                    + Util.WATCHDOG_PACKAGE_NAME_SUFFIX + "."
+                    + Util.getCallbackInterfaceName(beWatched.getClass().getSimpleName());
 
             try {
-                callback = Class.forName(callbackInterfacePackageName + "." + callbackInterfaceName);
+                Class callback = Class.forName(callbackInterfaceName);
                 if (!callback.isInstance(beNotified)) {
-                    System.out.println(beNotified.getClass().getSimpleName() + " was suggest to implement " + callbackInterfaceName);
+                    throw new RuntimeException(beNotified.getClass().getSimpleName() + " must implement " + callback.getSimpleName());
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
