@@ -1,6 +1,7 @@
 package net.funol.databinding.watchdog.sample;
 
 import android.databinding.BaseObservable;
+import android.databinding.ObservableField;
 import android.view.View;
 
 import net.funol.databinding.watchdog.annotations.WatchThis;
@@ -10,6 +11,11 @@ import net.funol.databinding.watchdog.annotations.WatchThis;
  */
 
 public class MainViewModel {
+
+    @WatchThis(method = "onUserNameChanged")
+    public final ObservableField<String> username = new ObservableField<>();
+    @WatchThis(method = "onPasswordChanged")
+    public final ObservableField<String> password = new ObservableField<>();
 
     @WatchThis
     public final BaseObservable onLoginSuccess = new BaseObservable();
