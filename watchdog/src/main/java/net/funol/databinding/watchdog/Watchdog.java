@@ -52,7 +52,7 @@ public class Watchdog {
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException("method " + method.getName() + " must be declare as public access");
                 } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e.getCause());
                 }
             }
         });
@@ -88,34 +88,7 @@ public class Watchdog {
             if (beNotified == null) {
                 throw new IllegalArgumentException("beNotified required.");
             }
-
-            String beWatchedPackageName = beWatched.getClass().getName().replace("." + beWatched.getClass().getSimpleName(), "");
-            String callbackInterfaceName = Util.getCallbackInterfaceName(beWatched.getClass().getSimpleName());
-            String callbackInterfacePackageName = beWatchedPackageName + Util.WATCHDOG_PACKAGE_NAME_SUFFIX;
-
-            Class callback;
-
-            try {
-                callback = Class.forName(callbackInterfacePackageName + "." + callbackInterfaceName);
-                if (!callback.isInstance(beNotified)) {
-                    System.out.println(beNotified.getClass().getSimpleName() + " was suggest to implement " + callbackInterfaceName);
-                }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-
             return new Watchdog(beWatched, beNotified);
         }
     }
-
-
-    public static class Util {
-
-        private static final String WATCHDOG_PACKAGE_NAME_SUFFIX = ".watchdog";
-
-        public static String getCallbackInterfaceName(String className) {
-            return "I" + className + "Callbacks";
-        }
-    }
-
 }
