@@ -19,7 +19,7 @@ ext {
     sourceCompatibilityVersion = JavaVersion.VERSION_1_7
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
 
-    watchdogVersion = '1.0.0'
+    watchdogVersion = '1.0.1'
     watchdogGroup = 'net.funol.databinding.watchdog'
 }
 
