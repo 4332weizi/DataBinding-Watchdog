@@ -10,7 +10,7 @@ import net.funol.databinding.watchdog.annotations.WatchThis;
  * Created by ZHAOWEIWEI on 2017/1/6.
  */
 
-public class MainViewModel {
+public class MainViewModel  extends ViewModel{
 
     @WatchThis(method = "onUserNameChanged")
     public final ObservableField<String> username = new ObservableField<>();

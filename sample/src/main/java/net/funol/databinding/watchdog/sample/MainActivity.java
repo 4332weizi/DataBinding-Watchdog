@@ -2,6 +2,7 @@ package net.funol.databinding.watchdog.sample;
 
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -48,4 +49,8 @@ public class MainActivity extends AppCompatActivity implements IMainViewModelCal
         toast.show();
     }
 
+    @Override
+    public void test(ObservableBoolean observableField, int fieldId) {
+
+    }
 }
