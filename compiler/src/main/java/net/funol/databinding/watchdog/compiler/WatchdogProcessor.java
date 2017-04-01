@@ -166,8 +166,4 @@ public class WatchdogProcessor extends AbstractProcessor {
         }
     }
 
-    private String getPackageName(Element element) {
-        return mElementUtils.getPackageOf(element).getQualifiedName().toString();
-    }
-
 }

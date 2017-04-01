@@ -12,6 +12,7 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
+import net.funol.databinding.watchdog.Watchdog;
 import net.funol.databinding.watchdog.WatchdogInjector;
 import net.funol.databinding.watchdog.annotations.WatchThis;
 
@@ -29,12 +30,20 @@ import javax.lang.model.util.Types;
 
 public class InjectorHelper {
 
+    static final String INJECT_METHOD_NAME = "inject";
+    static final String BE_WATCHED_PARAM_NAME = "beWatched";
+    static final String BE_NOTIFIED_PARAM_NAME = "beNotified";
+    static final String ADD_ON_PROPERTY_CHANGED_CALLBACK = "addOnPropertyChangedCallback";
+
+    static final String OBSERVABLE_FIELD = "observableField";
+    static final String FIELD_ID = "fieldId";
+
     public static String getInjectorPackageName(Element element) {
-        return element.getEnclosingElement().toString() + Constants.WATCHDOG_PACKAGE_NAME_SUFFIX;
+        return Watchdog.getWatchdogPackage(element.getEnclosingElement().toString());
     }
 
     public static String getInjectorClassName(Element element) {
-        return element.getSimpleName() + "$$WatchdogInjector";
+        return Watchdog.getInjectorClassName(element.getSimpleName().toString());
     }
 
     public static TypeSpec.Builder generateInjector(Element element) {
@@ -51,7 +60,7 @@ public class InjectorHelper {
 
         if (superType != null) {
             injectorClass.superclass(ParameterizedTypeName.get(superType, TypeVariableName.get("W"), TypeVariableName.get("N")));
-            injectMethod.addCode("super.$N($N, $N);\n", Constants.INJECT_METHOD_NAME, Constants.BE_WATCHED_PARAM_NAME, Constants.BE_NOTIFIED_PARAM_NAME);
+            injectMethod.addCode("super.$N($N, $N);\n", INJECT_METHOD_NAME, BE_WATCHED_PARAM_NAME, BE_NOTIFIED_PARAM_NAME);
         } else {
             injectorClass.addSuperinterface(ParameterizedTypeName.get(ClassName.get(WatchdogInjector.class), TypeVariableName.get("W"), TypeVariableName.get("N")));
         }
@@ -66,7 +75,7 @@ public class InjectorHelper {
                 // generate anonymous callback
                 TypeSpec propertyChangeCallback = generatePropertyChangeCallback(methodName, paramTypeName).build();
                 // add property change callback
-                injectMethod.addStatement("$N.$N.$N($L)", Constants.BE_WATCHED_PARAM_NAME, field.getSimpleName(), Constants.ADD_ON_PROPERTY_CHANGED_CALLBACK, propertyChangeCallback);
+                injectMethod.addStatement("$N.$N.$N($L)", BE_WATCHED_PARAM_NAME, field.getSimpleName(), ADD_ON_PROPERTY_CHANGED_CALLBACK, propertyChangeCallback);
             }
         }
         injectorClass.addMethod(injectMethod.build());
@@ -78,18 +87,18 @@ public class InjectorHelper {
                 .addTypeVariable(TypeVariableName.get("W", beWatchedTypeName))
                 .addTypeVariable(TypeVariableName.get("N", beNotifiedTypeName))
                 .addAnnotation(AnnotationSpec.builder(SuppressWarnings.class)
-                       .addMember("value", "$S", "unchecked")
-                       .build())
+                        .addMember("value", "$S", "unchecked")
+                        .build())
                 .addModifiers(Modifier.PUBLIC);
     }
 
     public static MethodSpec.Builder generateInjectMethod(TypeName beWatched, TypeName beNotified) {
-        return MethodSpec.methodBuilder(Constants.INJECT_METHOD_NAME)
+        return MethodSpec.methodBuilder(INJECT_METHOD_NAME)
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .returns(TypeName.VOID)
-                .addParameter(ParameterSpec.builder(beWatched, Constants.BE_WATCHED_PARAM_NAME).build())
-                .addParameter(ParameterSpec.builder(beNotified, Constants.BE_NOTIFIED_PARAM_NAME, Modifier.FINAL).build());
+                .addParameter(ParameterSpec.builder(beWatched, BE_WATCHED_PARAM_NAME).build())
+                .addParameter(ParameterSpec.builder(beNotified, BE_NOTIFIED_PARAM_NAME, Modifier.FINAL).build());
     }
 
     public static TypeName getInjectorSuperType(Elements mElementUtils, Types mTypesUtils, Element superElement) {
@@ -114,11 +123,11 @@ public class InjectorHelper {
                         .addAnnotation(Override.class)
                         .addModifiers(Modifier.PUBLIC)
                         .returns(TypeName.VOID)
-                        .addParameter(ClassName.get(Observable.class), Constants.OBSERVABLE_FIELD)
-                        .addParameter(TypeName.INT, Constants.FIELD_ID)
+                        .addParameter(ClassName.get(Observable.class), OBSERVABLE_FIELD)
+                        .addParameter(TypeName.INT, FIELD_ID)
                         .addCode(CodeBlock.builder()
-                                .beginControlFlow("if ($N != null)", Constants.BE_NOTIFIED_PARAM_NAME)
-                                .addStatement("$N.$N(($T)$N,$N)", Constants.BE_NOTIFIED_PARAM_NAME, callbackMethodName, paramTypeName, Constants.OBSERVABLE_FIELD, Constants.FIELD_ID)
+                                .beginControlFlow("if ($N != null)", BE_NOTIFIED_PARAM_NAME)
+                                .addStatement("$N.$N(($T)$N,$N)", BE_NOTIFIED_PARAM_NAME, callbackMethodName, paramTypeName, OBSERVABLE_FIELD, FIELD_ID)
                                 .endControlFlow()
                                 .build())
                         .build());

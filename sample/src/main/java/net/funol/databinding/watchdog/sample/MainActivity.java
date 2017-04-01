@@ -22,10 +22,8 @@ public class MainActivity extends AppCompatActivity implements IMainViewModelCal
         MainViewModel viewModel = new MainViewModel();
         binding.setWatchdog(viewModel);
 
-        Watchdog.newBuilder()
-                .watch(viewModel)
-                .notify(this)
-                .build();
+        Watchdog.watch(viewModel)
+                .addWatcher(this);
     }
 
     @Override
