@@ -6,7 +6,7 @@
 
         <variable
             name="watchdog"
-            type="net.funol.databinding.watchdog.sample.MainViewModel" />
+            type="net.funol.databinding.watchdog.sample.viewmodel.MainViewModel" />
     </data>
 
     <LinearLayout
