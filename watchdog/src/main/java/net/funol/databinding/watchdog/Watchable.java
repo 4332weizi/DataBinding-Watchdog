@@ -9,7 +9,7 @@ public class Watchable<W, N extends Watcher> {
     protected W mWatchable;
     // protected List<Watcher> mWatchers;
 
-    protected WatchdogInjector<W, N> mInjector;
+    protected Injector<W, N> mInjector;
 
     protected Watchable(W watchable) {
         if (watchable == null) {
@@ -25,11 +25,11 @@ public class Watchable<W, N extends Watcher> {
         return this;
     }
 
-    private WatchdogInjector<W, N> getInjector(W watchable) {
+    private Injector<W, N> getInjector(W watchable) {
         String injectorName = Watchdog.getWatchdogPackage(watchable.getClass())
                 + "." + Watchdog.getInjectorClassName(watchable.getClass());
         try {
-            return (WatchdogInjector<W, N>) Class.forName(injectorName).newInstance();
+            return (Injector<W, N>) Class.forName(injectorName).newInstance();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

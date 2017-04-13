@@ -12,11 +12,9 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
+import net.funol.databinding.watchdog.Injector;
 import net.funol.databinding.watchdog.Watchdog;
-import net.funol.databinding.watchdog.WatchdogInjector;
 import net.funol.databinding.watchdog.annotations.WatchThis;
-
-import java.lang.reflect.ParameterizedType;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
@@ -62,7 +60,7 @@ public class InjectorHelper {
             injectorClass.superclass(ParameterizedTypeName.get(superType, TypeVariableName.get("W"), TypeVariableName.get("N")));
             injectMethod.addCode("super.$N($N, $N);\n", INJECT_METHOD_NAME, BE_WATCHED_PARAM_NAME, BE_NOTIFIED_PARAM_NAME);
         } else {
-            injectorClass.addSuperinterface(ParameterizedTypeName.get(ClassName.get(WatchdogInjector.class), TypeVariableName.get("W"), TypeVariableName.get("N")));
+            injectorClass.addSuperinterface(ParameterizedTypeName.get(ClassName.get(Injector.class), TypeVariableName.get("W"), TypeVariableName.get("N")));
         }
 
         for (Element field : element.getEnclosedElements()) {
@@ -109,7 +107,7 @@ public class InjectorHelper {
 
         TypeElement guessInjectorTypeElement = mElementUtils.getTypeElement(guessInjectorName);
 
-        if (guessInjectorTypeElement != null && mTypesUtils.isSubtype(guessInjectorTypeElement.asType(), mElementUtils.getTypeElement(WatchdogInjector.class.getName()).asType())) {
+        if (guessInjectorTypeElement != null && mTypesUtils.isSubtype(guessInjectorTypeElement.asType(), mElementUtils.getTypeElement(Injector.class.getName()).asType())) {
             return TypeName.get(guessInjectorTypeElement.asType());
         } else {
             return null;

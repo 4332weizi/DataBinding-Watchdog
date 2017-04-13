@@ -8,7 +8,6 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import net.funol.databinding.watchdog.Watchdog;
-import net.funol.databinding.watchdog.WatchdogInjector;
 import net.funol.databinding.watchdog.Watcher;
 import net.funol.databinding.watchdog.annotations.NotifyThis;
 import net.funol.databinding.watchdog.annotations.WatchThis;
