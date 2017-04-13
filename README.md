@@ -78,7 +78,7 @@ Download
 ===
 ```
 dependencies {
-    compile 'net.funol.databinding.watchdog:watchdog:1.1.0'
-    annotationProcessor 'net.funol.databinding.watchdog:compiler:1.1.0'
+    compile 'io.auxo.databinding.watchdog:watchdog:1.1.0'
+    annotationProcessor 'io.auxo.databinding.watchdog:compiler:1.1.0'
 }
 ```

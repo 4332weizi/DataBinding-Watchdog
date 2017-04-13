@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "net.funol.databinding.watchdog.sample"
+        applicationId "io.auxo.databinding.watchdog.sample"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1

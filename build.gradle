@@ -24,8 +24,8 @@ ext {
     sourceCompatibilityVersion = JavaVersion.VERSION_1_7
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
 
-    watchdogVersion = '1.1.0'
-    watchdogGroup = 'net.funol.databinding.watchdog'
+    watchdogVersion = '2.0.0'
+    watchdogGroup = 'io.auxo.databinding.watchdog'
 }
 
 task clean(type: Delete) {

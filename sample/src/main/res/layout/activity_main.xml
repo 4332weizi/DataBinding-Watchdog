@@ -6,7 +6,7 @@
 
         <variable
             name="watchdog"
-            type="net.funol.databinding.watchdog.sample.viewmodel.MainViewModel" />
+            type="io.auxo.databinding.watchdog.sample.viewmodel.MainViewModel" />
     </data>
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="net.funol.autofire.sample.MainActivity">
+        tools:context="io.auxo.autofire.sample.MainActivity">
 
         <EditText
             android:layout_width="match_parent"
