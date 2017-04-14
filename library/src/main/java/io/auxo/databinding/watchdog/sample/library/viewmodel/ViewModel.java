@@ -5,10 +5,6 @@ import android.text.TextUtils;
 
 import io.auxo.databinding.watchdog.annotations.WatchThis;
 
-/**
- * Created by ZHAOWEIWEI on 2017/3/31.
- */
-
 public class ViewModel {
 
     @WatchThis(method = "showToast")

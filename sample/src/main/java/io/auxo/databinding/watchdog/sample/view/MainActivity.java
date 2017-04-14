@@ -1,7 +1,9 @@
 package io.auxo.databinding.watchdog.sample.view;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
-import android.databinding.ObservableField;
+
+import java.util.Map;
 
 import io.auxo.databinding.watchdog.Watchdog;
 import io.auxo.databinding.watchdog.sample.BR;
@@ -12,8 +14,6 @@ import io.auxo.databinding.watchdog.sample.library.viewmodel.ViewModel;
 import io.auxo.databinding.watchdog.sample.viewmodel.MainViewModel;
 import io.auxo.databinding.watchdog.sample.viewmodel.watchdog.IMainViewModelCallbacks;
 
-import java.util.Map;
-
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements IMainViewModelCallbacks {
 
     @Override
@@ -23,25 +23,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements I
 
     @Override
     protected Map<Integer, ViewModel> getDataBindingVariables(Map<Integer, ViewModel> variables) {
-        variables.put(BR.watchdog, new MainViewModel());
+        String username = getIntent().getStringExtra("username");
+        variables.put(BR.watchdog, new MainViewModel(username));
         Watchdog.watch(variables.get(BR.watchdog))
                 .addWatcher(this);
         return variables;
     }
 
     @Override
-    public void onUserNameChanged(ObservableField<String> observableField, int fieldId) {
-        showToast("用户名：" + observableField.get());
+    public void onNavigateCode(BaseObservable observableField, int fieldId) {
+        startActivity(new Intent(this, CodeActivity.class));
     }
 
     @Override
-    public void onPasswordChanged(ObservableField<String> observableField, int fieldId) {
-        showToast("密码：" + observableField.get());
+    public void onNavigateIssues(BaseObservable observableField, int fieldId) {
+        startActivity(new Intent(this, IssuesActivity.class));
     }
-
-    @Override
-    public void onLoginSuccess(BaseObservable observableField, int fieldId) {
-        showToast("登录成功");
-    }
-
 }

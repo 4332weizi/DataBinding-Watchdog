@@ -7,10 +7,10 @@
         
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="io.auxo.databinding.watchdog.sample.library.view.BaseActivity">
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 </layout>

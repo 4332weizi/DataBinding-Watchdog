@@ -6,7 +6,7 @@
 
         <variable
             name="watchdog"
-            type="io.auxo.databinding.watchdog.sample.viewmodel.MainViewModel"/>
+            type="io.auxo.databinding.watchdog.sample.viewmodel.LoginViewModel"/>
     </data>
 
     <LinearLayout
@@ -14,28 +14,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".view.MainActivity">
+        tools:context=".view.LoginActivity">
 
-        <TextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="@{`welcome back ` +  watchdog.username}"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="28sp"/>
+            android:hint="username"
+            android:text="@={watchdog.username}"/>
 
-        <Button
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{watchdog.onCodeClick}"
-            android:text="Code"/>
+            android:hint="password"
+            android:inputType="textPassword"
+            android:text="@={watchdog.password}"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{watchdog.onIssuesClick}"
-            android:text="Issues"/>
+            android:onClick="@{watchdog.onLoginBtnClick}"
+            android:text="LOGIN"/>
 
     </LinearLayout>
 </layout>
