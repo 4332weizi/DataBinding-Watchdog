@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 import android.view.View;
 
 import io.auxo.databinding.watchdog.annotations.WatchThis;
+import io.auxo.databinding.watchdog.sample.library.viewmodel.ViewModel;
 
 /**
  * Created by ZHAOWEIWEI on 2017/1/6.

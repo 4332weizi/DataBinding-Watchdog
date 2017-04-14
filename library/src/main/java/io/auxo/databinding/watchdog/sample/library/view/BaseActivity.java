@@ -1,4 +1,4 @@
-package io.auxo.databinding.watchdog.sample.view;
+package io.auxo.databinding.watchdog.sample.library.view;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
@@ -8,11 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import io.auxo.databinding.watchdog.sample.viewmodel.ViewModel;
-import io.auxo.databinding.watchdog.sample.viewmodel.watchdog.IViewModelCallbacks;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import io.auxo.databinding.watchdog.sample.library.viewmodel.ViewModel;
+import io.auxo.databinding.watchdog.sample.library.viewmodel.watchdog.IViewModelCallbacks;
 
 public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity implements IViewModelCallbacks {
 

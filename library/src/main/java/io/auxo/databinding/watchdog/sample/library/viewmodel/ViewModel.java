@@ -1,4 +1,4 @@
-package io.auxo.databinding.watchdog.sample.viewmodel;
+package io.auxo.databinding.watchdog.sample.library.viewmodel;
 
 import android.databinding.ObservableField;
 import android.text.TextUtils;

@@ -12,6 +12,8 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
+import java.util.List;
+
 import io.auxo.databinding.watchdog.Injector;
 import io.auxo.databinding.watchdog.Watchdog;
 import io.auxo.databinding.watchdog.annotations.WatchThis;
@@ -19,6 +21,8 @@ import io.auxo.databinding.watchdog.annotations.WatchThis;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
@@ -104,10 +108,12 @@ public class InjectorHelper {
         String originClassName = superElement.toString();
         // guess callback interface name
         String guessInjectorName = getInjectorClassName(superElement);
+        // guess callback interface package name
+        String guessInjectorPackageName = getInjectorPackageName(superElement);
 
-        TypeElement guessInjectorTypeElement = mElementUtils.getTypeElement(guessInjectorName);
+        TypeElement guessInjectorTypeElement = mElementUtils.getTypeElement(guessInjectorPackageName + "." + guessInjectorName);
 
-        if (guessInjectorTypeElement != null && mTypesUtils.isSubtype(guessInjectorTypeElement.asType(), mElementUtils.getTypeElement(Injector.class.getName()).asType())) {
+        if (guessInjectorTypeElement != null && isSubtypeOfType(guessInjectorTypeElement.asType(), "io.auxo.databinding.watchdog.Injector<W,N>")) {
             return TypeName.get(guessInjectorTypeElement.asType());
         } else {
             return null;
@@ -130,4 +136,26 @@ public class InjectorHelper {
                                 .build())
                         .build());
     }
+
+    private static boolean isSubtypeOfType(TypeMirror typeMirror, String otherType) {
+        if (otherType.equals(typeMirror.toString())) {
+            return true;
+        }
+        DeclaredType declaredType = (DeclaredType) typeMirror;
+        if (declaredType.toString().equals(otherType)) {
+            return true;
+        }
+        Element element = declaredType.asElement();
+        if (!(element instanceof TypeElement)) {
+            return false;
+        }
+        TypeElement typeElement = (TypeElement) element;
+        for (TypeMirror interfaceType : typeElement.getInterfaces()) {
+            if (isSubtypeOfType(interfaceType, otherType)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -7,8 +7,9 @@ import io.auxo.databinding.watchdog.Watchdog;
 import io.auxo.databinding.watchdog.sample.BR;
 import io.auxo.databinding.watchdog.sample.R;
 import io.auxo.databinding.watchdog.sample.databinding.ActivityMainBinding;
+import io.auxo.databinding.watchdog.sample.library.view.BaseActivity;
+import io.auxo.databinding.watchdog.sample.library.viewmodel.ViewModel;
 import io.auxo.databinding.watchdog.sample.viewmodel.MainViewModel;
-import io.auxo.databinding.watchdog.sample.viewmodel.ViewModel;
 import io.auxo.databinding.watchdog.sample.viewmodel.watchdog.IMainViewModelCallbacks;
 
 import java.util.Map;

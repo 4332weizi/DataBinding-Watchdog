@@ -128,7 +128,7 @@ public class WatchdogProcessor extends AbstractProcessor {
                 TypeName superType = InjectorHelper.getInjectorSuperType(mElementUtils, mTypeUtils, mTypeUtils.asElement(superTypes.get(0)));
                 if (superType != null) {
                     // super annotated with WatchThis
-                    topElements.add(element);
+                    topElements.add(mTypeUtils.asElement(superTypes.get(0)));
                 }
             }
         }

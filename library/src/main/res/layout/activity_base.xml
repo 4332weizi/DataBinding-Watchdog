@@ -10,7 +10,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="io.auxo.databinding.watchdog.sample.view.BaseActivity">
+        tools:context="io.auxo.databinding.watchdog.sample.library.view.BaseActivity">
 
     </android.support.constraint.ConstraintLayout>
 </layout>
