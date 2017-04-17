@@ -26,9 +26,6 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
-/**
- * Created by ZHAOWEIWEI on 2017/1/9.
- */
 @AutoService(Processor.class)
 public class WatchdogProcessor extends AbstractProcessor {
 

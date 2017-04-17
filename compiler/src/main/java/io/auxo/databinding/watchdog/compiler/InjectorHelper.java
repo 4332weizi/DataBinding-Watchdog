@@ -12,10 +12,8 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
-import java.util.List;
-
 import io.auxo.databinding.watchdog.Injector;
-import io.auxo.databinding.watchdog.Watchdog;
+import io.auxo.databinding.watchdog.Utils;
 import io.auxo.databinding.watchdog.annotations.WatchThis;
 
 import javax.lang.model.element.Element;
@@ -25,10 +23,6 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-
-/**
- * Created by ZHAOWEIWEI on 2017/3/31.
- */
 
 public class InjectorHelper {
 
@@ -41,11 +35,11 @@ public class InjectorHelper {
     static final String FIELD_ID = "fieldId";
 
     public static String getInjectorPackageName(Element element) {
-        return Watchdog.getWatchdogPackage(element.getEnclosingElement().toString());
+        return Utils.getWatchdogPackage(element.getEnclosingElement().toString());
     }
 
     public static String getInjectorClassName(Element element) {
-        return Watchdog.getInjectorClassName(element.getSimpleName().toString());
+        return Utils.getInjectorClassName(element.getSimpleName().toString());
     }
 
     public static TypeSpec.Builder generateInjector(Element element) {

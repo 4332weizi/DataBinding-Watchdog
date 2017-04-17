@@ -7,7 +7,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
-import io.auxo.databinding.watchdog.Watchdog;
+import io.auxo.databinding.watchdog.Utils;
 import io.auxo.databinding.watchdog.Watcher;
 import io.auxo.databinding.watchdog.annotations.NotifyThis;
 import io.auxo.databinding.watchdog.annotations.WatchThis;
@@ -15,21 +15,17 @@ import io.auxo.databinding.watchdog.annotations.WatchThis;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 
-/**
- * Created by ZHAOWEIWEI on 2017/3/31.
- */
-
 public class CallbackHelper {
 
     static final String OBSERVABLE_FIELD = "observableField";
     static final String FIELD_ID = "fieldId";
 
     public static String getCallbackPackageName(Element element) {
-        return Watchdog.getWatchdogPackage(element.getEnclosingElement().toString());
+        return Utils.getWatchdogPackage(element.getEnclosingElement().toString());
     }
 
     public static String getCallbackInterfaceName(Element element) {
-        return Watchdog.getCallbackInterfaceName(element.getSimpleName().toString());
+        return Utils.getCallbackInterfaceName(element.getSimpleName().toString());
     }
 
     public static TypeSpec.Builder generateCallback(Element element) {

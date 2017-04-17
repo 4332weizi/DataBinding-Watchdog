@@ -3,6 +3,8 @@
 
     <declare-styleable name="WebView">
         <attr name="loadUrl" format="reference"></attr>
+        <attr name="webViewClient" format="reference"></attr>
+        <attr name="webChromeClient" format="reference"></attr>
     </declare-styleable>
 
 </resources>

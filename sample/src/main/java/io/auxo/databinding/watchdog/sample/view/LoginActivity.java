@@ -1,9 +1,6 @@
 package io.auxo.databinding.watchdog.sample.view;
 
-import android.content.Intent;
-import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
-import android.os.Bundle;
 
 import java.util.Map;
 
@@ -44,7 +41,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     @Override
     public void onLoginSuccess(ObservableField<String> observableField, int fieldId) {
         showToast("login success");
-        startActivity(new Intent(this, MainActivity.class).putExtra("username", observableField.get()));
+        MainActivity.start(this, observableField.get());
         finish();
     }
 

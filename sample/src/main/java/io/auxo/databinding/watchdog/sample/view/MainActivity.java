@@ -1,5 +1,6 @@
 package io.auxo.databinding.watchdog.sample.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 
@@ -15,6 +16,14 @@ import io.auxo.databinding.watchdog.sample.viewmodel.MainViewModel;
 import io.auxo.databinding.watchdog.sample.viewmodel.watchdog.IMainViewModelCallbacks;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements IMainViewModelCallbacks {
+
+    public static final String EXTRA_USERNAME = "username";
+
+    public static void start(Context context, String username) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(EXTRA_USERNAME, username);
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getContentLayout() {
@@ -32,11 +41,21 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements I
 
     @Override
     public void onNavigateCode(BaseObservable observableField, int fieldId) {
-        startActivity(new Intent(this, CodeActivity.class));
+        BrowserActivity.browse(this, "Code", "https://github.com/4332weizi/DataBinding-Watchdog/");
     }
 
     @Override
     public void onNavigateIssues(BaseObservable observableField, int fieldId) {
-        startActivity(new Intent(this, IssuesActivity.class));
+        BrowserActivity.browse(this, "Issues", "https://github.com/4332weizi/DataBinding-Watchdog/issues");
+    }
+
+    @Override
+    public void onNavigatePulls(BaseObservable observableField, int fieldId) {
+        BrowserActivity.browse(this, "Pull Requests", "https://github.com/4332weizi/DataBinding-Watchdog/pulls");
+    }
+
+    @Override
+    public void onNavigatePulse(BaseObservable observableField, int fieldId) {
+        BrowserActivity.browse(this, "Pulse", "https://github.com/4332weizi/DataBinding-Watchdog/pulse");
     }
 }

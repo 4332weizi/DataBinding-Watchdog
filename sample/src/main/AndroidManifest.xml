@@ -18,9 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.CodeActivity">
-        </activity>
-        <activity android:name=".view.IssuesActivity">
+        <activity android:name=".view.BrowserActivity">
         </activity>
     </application>
 

@@ -37,5 +37,17 @@
             android:onClick="@{watchdog.onIssuesClick}"
             android:text="Issues"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{watchdog.onPullsClick}"
+            android:text="Pull Requests"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{watchdog.onPulseClick}"
+            android:text="Pulse"/>
+
     </LinearLayout>
 </layout>
