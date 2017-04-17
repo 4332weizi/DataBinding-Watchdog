@@ -12,10 +12,6 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
-import io.auxo.databinding.watchdog.Injector;
-import io.auxo.databinding.watchdog.Utils;
-import io.auxo.databinding.watchdog.annotations.WatchThis;
-
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
@@ -23,6 +19,10 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+
+import io.auxo.databinding.watchdog.Injector;
+import io.auxo.databinding.watchdog.Utils;
+import io.auxo.databinding.watchdog.annotations.WatchThis;
 
 public class InjectorHelper {
 

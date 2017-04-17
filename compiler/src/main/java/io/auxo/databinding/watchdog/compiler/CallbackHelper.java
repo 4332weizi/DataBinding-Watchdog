@@ -7,13 +7,13 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
+import javax.lang.model.element.Element;
+import javax.lang.model.element.Modifier;
+
 import io.auxo.databinding.watchdog.Utils;
 import io.auxo.databinding.watchdog.Watcher;
 import io.auxo.databinding.watchdog.annotations.NotifyThis;
 import io.auxo.databinding.watchdog.annotations.WatchThis;
-
-import javax.lang.model.element.Element;
-import javax.lang.model.element.Modifier;
 
 public class CallbackHelper {
 

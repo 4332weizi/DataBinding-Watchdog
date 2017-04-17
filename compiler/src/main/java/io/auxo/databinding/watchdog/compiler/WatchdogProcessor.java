@@ -6,8 +6,6 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
-import io.auxo.databinding.watchdog.annotations.WatchThis;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +23,8 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+
+import io.auxo.databinding.watchdog.annotations.WatchThis;
 
 @AutoService(Processor.class)
 public class WatchdogProcessor extends AbstractProcessor {
