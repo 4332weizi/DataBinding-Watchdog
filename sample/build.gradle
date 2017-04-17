@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "net.funol.databinding.watchdog.sample"
+        applicationId "io.auxo.databinding.watchdog.sample"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
@@ -15,6 +15,10 @@ android {
         enabled true
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -23,12 +27,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    testCompile 'junit:junit:4.12'
     compile project(':watchdog')
+    compile project(':annotations')
     annotationProcessor project(':compiler')
+    compile project(':library')
+    compile 'com.android.support:appcompat-v7:25.3.1'
 }

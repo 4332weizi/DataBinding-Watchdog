@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="browser"
+            type="io.auxo.databinding.watchdog.sample.viewmodel.BrowserViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".view.BrowserActivity">
+
+        <ProgressBar
+            android:id="@+id/pb_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:indeterminateOnly="false"
+            android:max="100"
+            android:progress="@{browser.progress}"
+            android:visibility="@{browser.progressVisible ? View.VISIBLE : View.GONE}"/>
+
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:loadUrl="@{browser.url}"
+            app:webChromeClient="@{browser.webChromeClient}"
+            app:webViewClient="@{browser.webViewClient}">
+
+        </WebView>
+
+    </LinearLayout>
+</layout>

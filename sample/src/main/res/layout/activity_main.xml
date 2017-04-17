@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="watchdog"
-            type="net.funol.databinding.watchdog.sample.MainViewModel" />
+            type="io.auxo.databinding.watchdog.sample.viewmodel.MainViewModel"/>
     </data>
 
     <LinearLayout
@@ -14,26 +14,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="net.funol.autofire.sample.MainActivity">
+        tools:context=".view.MainActivity">
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="账户名"
-            android:text="@={watchdog.username}" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="密码"
-            android:inputType="textPassword"
-            android:text="@={watchdog.password}" />
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@{`welcome back ` +  watchdog.username}"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="28sp"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{watchdog.onLoginBtnClick}"
-            android:text="登录" />
+            android:onClick="@{watchdog.onCodeClick}"
+            android:text="Code"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{watchdog.onIssuesClick}"
+            android:text="Issues"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{watchdog.onPullsClick}"
+            android:text="Pull Requests"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{watchdog.onPulseClick}"
+            android:text="Pulse"/>
 
     </LinearLayout>
 </layout>
