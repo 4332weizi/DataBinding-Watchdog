@@ -23,6 +23,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+import javax.tools.Diagnostic;
 
 import io.auxo.databinding.watchdog.annotations.WatchThis;
 
@@ -159,7 +160,7 @@ public class WatchdogProcessor extends AbstractProcessor {
                     .build()
                     .writeTo(mFiler);
         } catch (IOException e) {
-            e.printStackTrace();
+            mMessager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
         }
     }
 
