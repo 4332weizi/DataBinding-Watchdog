@@ -8,6 +8,7 @@ import java.util.Map;
 
 import io.auxo.databinding.watchdog.Watchdog;
 import io.auxo.databinding.watchdog.sample.BR;
+import io.auxo.databinding.watchdog.sample.ObservableEvent;
 import io.auxo.databinding.watchdog.sample.R;
 import io.auxo.databinding.watchdog.sample.databinding.ActivityMainBinding;
 import io.auxo.databinding.watchdog.sample.library.view.BaseActivity;
@@ -40,22 +41,22 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements I
     }
 
     @Override
-    public void onNavigateCode(BaseObservable observableField, int fieldId) {
+    public void onNavigateCode(ObservableEvent<Void> observableField, int fieldId) {
         BrowserActivity.browse(this, "Code", "https://github.com/4332weizi/DataBinding-Watchdog/");
     }
 
     @Override
-    public void onNavigateIssues(BaseObservable observableField, int fieldId) {
+    public void onNavigateIssues(ObservableEvent<Void> observableField, int fieldId) {
         BrowserActivity.browse(this, "Issues", "https://github.com/4332weizi/DataBinding-Watchdog/issues");
     }
 
     @Override
-    public void onNavigatePulls(BaseObservable observableField, int fieldId) {
+    public void onNavigatePulls(ObservableEvent<Void> observableField, int fieldId) {
         BrowserActivity.browse(this, "Pull Requests", "https://github.com/4332weizi/DataBinding-Watchdog/pulls");
     }
 
     @Override
-    public void onNavigatePulse(BaseObservable observableField, int fieldId) {
+    public void onNavigatePulse(ObservableEvent<Void> observableField, int fieldId) {
         BrowserActivity.browse(this, "Pulse", "https://github.com/4332weizi/DataBinding-Watchdog/pulse");
     }
 }

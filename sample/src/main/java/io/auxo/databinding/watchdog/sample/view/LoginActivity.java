@@ -6,6 +6,7 @@ import java.util.Map;
 
 import io.auxo.databinding.watchdog.Watchdog;
 import io.auxo.databinding.watchdog.sample.BR;
+import io.auxo.databinding.watchdog.sample.ObservableEvent;
 import io.auxo.databinding.watchdog.sample.R;
 import io.auxo.databinding.watchdog.sample.databinding.ActivityLoginBinding;
 import io.auxo.databinding.watchdog.sample.library.view.BaseActivity;
@@ -39,10 +40,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     }
 
     @Override
-    public void onLoginSuccess(ObservableField<String> observableField, int fieldId) {
+    public void onLoginSuccess(ObservableEvent<String> observableField, int fieldId) {
         showToast("login success");
         MainActivity.start(this, observableField.get());
         finish();
     }
-
 }

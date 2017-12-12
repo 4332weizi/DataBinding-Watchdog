@@ -4,6 +4,7 @@ import android.databinding.ObservableField;
 import android.view.View;
 
 import io.auxo.databinding.watchdog.annotations.WatchThis;
+import io.auxo.databinding.watchdog.sample.ObservableEvent;
 import io.auxo.databinding.watchdog.sample.library.viewmodel.ViewModel;
 
 public class LoginViewModel extends ViewModel {
@@ -14,7 +15,7 @@ public class LoginViewModel extends ViewModel {
     public final ObservableField<String> password = new ObservableField<>();
 
     @WatchThis
-    public final ObservableField<String> onLoginSuccess = new ObservableField<>();
+    public final ObservableEvent<String> onLoginSuccess = new ObservableEvent<>();
 
     public View.OnClickListener onLoginBtnClick = new View.OnClickListener() {
         @Override
@@ -27,7 +28,7 @@ public class LoginViewModel extends ViewModel {
                 showToast("please input your password");
                 return;
             }
-            onLoginSuccess.set(username.get());
+            onLoginSuccess.trigger(username.get());
         }
     };
 

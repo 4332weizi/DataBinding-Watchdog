@@ -1,10 +1,10 @@
 package io.auxo.databinding.watchdog.sample.viewmodel;
 
-import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
 import android.view.View;
 
 import io.auxo.databinding.watchdog.annotations.WatchThis;
+import io.auxo.databinding.watchdog.sample.ObservableEvent;
 import io.auxo.databinding.watchdog.sample.library.viewmodel.ViewModel;
 
 public class MainViewModel extends ViewModel {
@@ -12,13 +12,13 @@ public class MainViewModel extends ViewModel {
     public final ObservableField<String> username = new ObservableField<>();
 
     @WatchThis
-    public final BaseObservable onNavigateCode = new BaseObservable();
+    public final ObservableEvent<Void> onNavigateCode = new ObservableEvent<>();
     @WatchThis
-    public final BaseObservable onNavigateIssues = new BaseObservable();
+    public final ObservableEvent<Void> onNavigateIssues = new ObservableEvent<>();
     @WatchThis
-    public final BaseObservable onNavigatePulls = new BaseObservable();
+    public final ObservableEvent<Void> onNavigatePulls = new ObservableEvent<>();
     @WatchThis
-    public final BaseObservable onNavigatePulse = new BaseObservable();
+    public final ObservableEvent<Void> onNavigatePulse = new ObservableEvent<>();
 
     public MainViewModel(String username) {
         this.username.set(username);
@@ -27,28 +27,28 @@ public class MainViewModel extends ViewModel {
     public View.OnClickListener onCodeClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            onNavigateCode.notifyChange();
+            onNavigateCode.trigger();
         }
     };
 
     public View.OnClickListener onIssuesClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            onNavigateIssues.notifyChange();
+            onNavigateIssues.trigger();
         }
     };
 
     public View.OnClickListener onPullsClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            onNavigatePulls.notifyChange();
+            onNavigatePulls.trigger();
         }
     };
 
     public View.OnClickListener onPulseClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            onNavigatePulse.notifyChange();
+            onNavigatePulse.trigger();
         }
     };
 
