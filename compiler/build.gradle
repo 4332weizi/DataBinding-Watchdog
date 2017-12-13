@@ -6,9 +6,9 @@ sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
 targetCompatibility = rootProject.ext.targetCompatibilityVersion
 
 dependencies {
-    compile 'com.squareup:javapoet:1.7.0'
-    compile 'com.google.auto.service:auto-service:1.0-rc2'
-    compile 'com.android.databinding:baseLibrary:2.2.3'
-    compile project(path: ':annotations')
-    compile project(path: ':watchdog')
+    implementation 'com.squareup:javapoet:1.7.0'
+    implementation 'com.google.auto.service:auto-service:1.0-rc2'
+    implementation 'com.android.databinding:baseLibrary:2.2.3'
+    implementation project(path: ':annotations')
+    implementation project(path: ':watchdog')
 }

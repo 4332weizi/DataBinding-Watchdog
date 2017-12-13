@@ -6,6 +6,6 @@ sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
 targetCompatibility = rootProject.ext.targetCompatibilityVersion
 
 dependencies {
-    compile project(path: ':annotations')
-    compile 'com.android.databinding:baseLibrary:2.2.3'
+    implementation project(path: ':annotations')
+    implementation 'com.android.databinding:baseLibrary:2.2.3'
 }
