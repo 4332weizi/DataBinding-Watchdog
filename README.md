@@ -1,6 +1,10 @@
 DataBinding-Watchdog
 ===
 
+
+***Deprecated! Use LiveData instead.***
+
+
 Interface generator and property change binding tool for observable field in android DataBinding.
 
 * Generate callback interface for observable fields annotated with `@WatchThis`.
